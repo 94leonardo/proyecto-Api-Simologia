@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Feature(models.Models):
+class Feature(models.Model):
     external_id = models.CharField(max_length=100, unique=True)
     magnitude = models.DecimalField(max_digits=4, decimal_places=1)
     place = models.CharField(max_length=255)
