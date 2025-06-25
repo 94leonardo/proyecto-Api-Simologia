@@ -40,6 +40,7 @@ def is_valid_feature(feature):
 
 
 def load_features_from_usgs():
+    print("Solicitando datos del USGS...")
     url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
     response = requests.get(url)
 
@@ -47,17 +48,26 @@ def load_features_from_usgs():
         print("Error al obtener datos del feed USGS.")
         return
 
+    print("Respuesta resibida.")
     data = response.json()
     total = 0
     inserted = 0
+    print(f"Total de Features: {len(['features'])}")
 
-    for feature in data["feature"]:
+    for idx, feature in enumerate(data["features"]):
+        if idx % 50 == 0:
+            print(f"Procesando feature #{idx}")
+
+        if not is_valid_feature(feature):
+            continue
+
+    for feature in data["features"][:50]:  # ← solo 50 eventos por ahora
         total += 1
         if not is_valid_feature(feature):
             continue
 
         props = feature["properties"]
-        coords = feature["geometry"]["coodinates"]
+        coords = feature["geometry"]["coordinates"]
         external_id = feature["id"]
 
         # varificar sis ya existe
