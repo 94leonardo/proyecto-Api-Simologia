@@ -1,2 +1,5 @@
+# Archivo .env
 .env
-venv
+
+# Directorio del entorno virtual
+venv/
